@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite verbose="0" name="Failed suite [Command line suite]">
+  <test name="Command line test(failed)">
+    <classes>
+      <class name="com.booj.sauce.sauce_framework.BairdSaucePassTest">
+        <methods>
+          <include name="tearDown"/>
+          <include name="setupTest"/>
+        </methods>
+      </class> <!-- com.booj.sauce.sauce_framework.BairdSaucePassTest -->
+      <class name="com.booj.sauce.sauce_framework.BairdSauceFailTest">
+        <methods>
+          <include name="test_Account_Login_Page_Appear_Correct"/>
+          <include name="tearDown"/>
+          <include name="setupTest"/>
+        </methods>
+      </class> <!-- com.booj.sauce.sauce_framework.BairdSauceFailTest -->
+    </classes>
+  </test> <!-- Command line test(failed) -->
+</suite> <!-- Failed suite [Command line suite] -->
