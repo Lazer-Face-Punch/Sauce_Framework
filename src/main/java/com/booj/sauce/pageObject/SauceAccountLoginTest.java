@@ -1,119 +1,151 @@
 package com.booj.sauce.pageObject;
 
+import org.apache.log4j.Logger;
+import org.apache.log4j.xml.DOMConfigurator;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-/*import pageObject.BaseTestSub;*/
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.booj.sauce.drivers.Driver;
+
  public class SauceAccountLoginTest{
-	 /*public TestProperties testProperties;*/
-	WebDriver driver;
-	By loginPopup = By.linkText("Log In");
-	/*By popupBox = By.id("account_login_form");*/
-	By email = By.cssSelector("div.fancybox-inner > #account_login_form > #account_login_ajax > fieldset.clearfix > div.form-group > #wua-email");
-	By password = By.cssSelector("div.fancybox-inner > #account_login_form > #account_login_ajax > fieldset.clearfix > div.form-group > #wua-pass");
-	By login = By.cssSelector("div.fancybox-inner > #account_login_form > #account_login_ajax > fieldset.clearfix > input[name=\"Submit\"]");
-	@FindBy(className="account-user-name")
-	WebElement welcomeText;
-	
-	
-	
+	 /*static WebDriver driver;*/
+		private static By loginButton = By.linkText("Log In");
+		/*By popupBox = By.id("account_login_form");*/
+		private static By email = By.cssSelector("div.fancybox-inner > #account_login_form > #account_login_ajax > fieldset.clearfix > div.form-group > #wua-email");
+		private static By password = By.cssSelector("div.fancybox-inner > #account_login_form > #account_login_ajax > fieldset.clearfix > div.form-group > #wua-pass");
+		private static By login = By.cssSelector("div.fancybox-inner > #account_login_form > #account_login_ajax > fieldset.clearfix > input[name=\"Submit\"]");
+		@FindBy(className="account-user-name")private static WebElement welcomeText;
+		//@FindBy(linkText="Log Out") private static WebElement logout;
+		private static By logout = By.linkText("Log Out");
 
- 
-
-	
-public SauceAccountLoginTest(WebDriver driver){
-	
-	this.driver = driver;
-	PageFactory.initElements(driver, this);
-	/*driver.get("http://www.bairdwarner.com/")*/
-	/*driver.get(this.testProperties.getDomain() + "/")*/;
-}
-
-/*@DataProvider(name = "hardCodedBrowsers", parallel = true)
-public static Object[][] sauceBrowserDataProvider(Method testMethod) {
-    return new Object[][]{
-            new Object[]{"internet explorer", "11", "Windows 8.1"},
-            new Object[]{"safari", "6", "OSX 10.8"},
-    };
-}*/
-
-/*public void setUpBeforeTestClass(){
-	 
-	  driver = new FirefoxDriver();
-		driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-		driver.get("http://www.bairdwarner.com/");
 		
-}*/
-/*public static void setUp() {
-	Driver.Instance.get("http://www.bairdwarner.com");
-}*/	
+		private static Logger Log = Logger.getLogger(SauceAccountLoginTest.class.getName());
+		
+		
 
-//Open Login page popup
-public void clickLoginPopup(){
-	driver.findElement(loginPopup).click();
-}
+	 
 
+		
+	public SauceAccountLoginTest(WebDriver driver){ 
+		/*this.driver = driver;*/
+		PageFactory.initElements(driver, this);
+		driver.get("http://www.bairdwarner.com");
+	}
 
-//Set user name into Text Box
-public void setUserName(String strUserName){
-	driver.findElement(email).sendKeys(strUserName);
-}
+	/*public void setUpBeforeTestClass(){
+		 
+		  driver = new FirefoxDriver();
+			driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+			driver.get("http://www.bairdwarner.com/");
+			
+	}*/
+	/*public static void setUp() {
+		Driver.Instance.get("http://www.bairdwarner.com");
+	}*/	
 
-//Set Password
-public void setPassword(String strPassword){
-	driver.findElement(password).sendKeys(strPassword);
-}
-//Click Login Button
-public void clickLogin(){
-	driver.findElement(login).click();
-}
-
-//Verify logged in Welcome/Name
-public String getLoginWelcome(){
-	new WebDriverWait(driver, 15)
-	.until(ExpectedConditions.visibilityOf(welcomeText));
-	return welcomeText.getText();
-}
+	public static SauceAccountLoginTest Login;
+		
 
 
-/**
-
- * This POM method will be exposed in test case to login in the application
-
- * @param strUserName
-
- * @param strPasword
-
- * @return
-
- */
+	public static SauceAccountLoginTest getLogin() {
+		return Login;
+	}
 
 
-public void loginToBairdAccount(String strUserName, String strPassword){
-	
-	/*this.setUpBeforeTestClass();*/
-	/*this.setUp();*/
-	//Click account menu item
-	this.clickLoginPopup();
-	
-	//Target Popup
-	/*this.targetPopup();*/
-	
-	//Fill user name
-	this.setUserName(strUserName);
-	
-	//Fill password
-	this.setPassword(strPassword);
+	public static void setLogin(SauceAccountLoginTest login) {
+		Login = login;
+	}
+
+	//Initializes Page
+	public static void loginInitialize(){
+		Login = new SauceAccountLoginTest(Driver.Instance);
+	}
+
+	//Open Login page popup
+	public static void clickLoginPopup(){
+		Driver.Instance.findElement(loginButton).click();
+	}
+
+
+	//Set user name into Text Box
+	public static void setUserName(String strUserName){
+		Driver.Instance.findElement(email).sendKeys(strUserName);
+	}
+
+	//Set Password
+	public static void setPassword(String strPassword){
+		Driver.Instance.findElement(password).sendKeys(strPassword);
+	}
 	//Click Login Button
-	this.clickLogin();
-	
-	//Verify Welcome Text
-	this.getLoginWelcome();
-	
-}
-}
+	public static void clickLogin(){
+		Driver.Instance.findElement(login).click();
+	}
+
+	//Verify logged in Welcome/Name
+	public static String getLoginWelcome(){
+		new WebDriverWait(Driver.Instance, 15)
+		.until(ExpectedConditions.visibilityOf(welcomeText));
+		return welcomeText.getText();
+	}
+
+	//Logout
+	public static void clickLogout(){
+		Driver.Instance.findElement(logout).click();
+	}
+
+	//Verify logged out
+	public static void verifyLoggedOut(){
+		new WebDriverWait(Driver.Instance, 15)
+		.until(ExpectedConditions.visibilityOf((WebElement) loginButton));
+	}
+
+
+
+	/**
+	 *  This POM method will be exposed in test case to login in the application
+	 * @param strUserName
+	 * @param strPassword
+	 */
+	public static void loginToBairdAccount(String strUserName, String strPassword){
+		DOMConfigurator.configure("log4j.xml");
+		
+		//Click account menu item
+		SauceAccountLoginTest.clickLoginPopup();
+		Log.info("Click account menu item");
+		
+		//Target Popup
+		/*this.targetPopup();*/
+		
+		//Fill user name
+		SauceAccountLoginTest.setUserName(strUserName);
+		Log.info("Fill user name");
+		//Fill password
+		SauceAccountLoginTest.setPassword(strPassword);
+		Log.info("Fill password");
+		//Click Login Button
+		SauceAccountLoginTest.clickLogin();
+		Log.info("Click login button");
+		
+		//Verify Welcome Text
+		SauceAccountLoginTest.getLoginWelcome();
+		Log.info("Verify Welcome Text");
+		
+		
+	}
+
+	public static void logoutOfBairdAccount(){
+		
+		//Logout
+		SauceAccountLoginTest.clickLogout();
+			Log.info("Click Logout");
+			
+			//Verify Logout
+			SauceAccountLoginTest.verifyLoggedOut();
+			Log.info("Verified Log Out");
+	}
+ }

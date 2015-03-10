@@ -20,19 +20,15 @@ import com.saucelabs.testng.SauceOnDemandTestListener;
 
 		@Test(/*dataProvider = "hardCodedBrowsers", dataProviderClass = com.baird.pageObject.Sauce.class*/)
 		public void test_Account_Login_Page_Appear_Correct_Pass() throws Exception {
-			
 			// Create login page object
-			objLogin = new SauceAccountLoginTest(driver);
-
-			objLogin.loginToBairdAccount("brenden@activewebsite.com", "active");
-			
+			SauceAccountLoginTest.loginInitialize();
+			//Login to account
+			SauceAccountLoginTest.loginToBairdAccount("Brenden@activewebsite.com", "active");
 			//Returns welcome title and asserts true
-			String loginWelcomeTitle = objLogin.getLoginWelcome();
-			System.out.println("Welcome Login Title =" + loginWelcomeTitle);
-			Assert.assertTrue(loginWelcomeTitle.equals("Welcome, brenden thornsberry"));
-
+			Assert.assertTrue(SauceAccountLoginTest.getLoginWelcome().equals("Welcome, brenden thornsberry"));
+			SauceAccountLoginTest.logoutOfBairdAccount();
+			
 		}
-		
 		/*@AfterMethod
 		public void tearDownAfterTestClass()throws Exception{
 	Sauce.tearDown();
